@@ -142,8 +142,28 @@ def correlation(x, y):
     # x, y are standardized by taking average
     # corr(x,y) = covariance(x,y)/std(x) * std(y)
     # Always in the range of [-1:1]
+    # See: http://www.mathsisfun.com/data/correlation.html for a one pass shortcut - reduces iterations
 
     return covarience(x, y)/(standard_deviation(x) *  standard_deviation(y))
+
+def str_correlation(s1, s2):
+    # Note: ATM this doesn't care about the order in which the words occur - nore if a word
+    # occurs in one but not the other = bad news
+    hist1 = {}
+    hist2 = {}
+    
+    words1 = s1.split()
+    words2 = s2.split()
+    
+    for w in words1:
+        if w:
+            hist1[w] = hist1.get(w, 0) + 1
+
+    for w in words2:
+        if w:
+            hist2[w] = hist2.get(w, 0) + 1
+
+    return correlation(hist1.values(), hist2.values())
 
 
 x = (1,0,0,0,0,0,0,0,0,0)
@@ -161,6 +181,7 @@ y3 = (1, 2, 0, 1, 2)
 
 v = (2, 4, 4, 4, 5, 5, 7, 9)
 
+
 '''
 print 'Similarities'
 print jaccard_coefficient(x, y)
@@ -176,13 +197,18 @@ print 'Distances'
 print jaccard_distance(x, y)
 '''
 
+str1 = 'fish fish fish taco taco taco taco taco taco cat cat cat a a a a a a '
+str2 = 'fish taco taco cat a a'
+
+print str_correlation(str1, str2)
+
 #print mean(v)
 #print standard_deviation(v)
 #print covarience(x, y)
 #print 'Correlation'
 #print standard_deviation(x3)
-print mean(y3)
-print standard_deviation(y3)
+#print mean(y3)
+#print standard_deviation(y3)
 
-print correlation(x2, y2)
+#print correlation(x2, y2)
 print correlation(x3, y3)
